@@ -3,7 +3,7 @@ redux-cookiestorage
 
 The same library by [Elger Lambert](https://github.com/elgerlambert/redux-localstorage), but for cookie instead of localStorage.
 
-Store enhancer that syncs (a subset) of your Redux store state to sessionstorage.
+Store enhancer that syncs (a subset) of your Redux store state to cookie.
 
 **NOTE:** Be sure to check out the [1.0-breaking-changes](https://github.com/elgerlambert/redux-sessionstorage/tree/1.0-breaking-changes) branch (available on npm as `redux-sessionstorage@rc`). It includes support for flexible storage backends, including (but not limited to) `sessionStorage` and react-natives' `AsyncStorage`.
 
