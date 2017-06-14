@@ -11,10 +11,6 @@ import Cookies from 'universal-cookie';
  * @param {String} [config.key="redux"] String used as cookie key
  * @param {Function} [config.slicer] (paths) => (state) => subset. A function that returns a subset
  * of store state that should be persisted to cookie
- * @param {Function} [config.serialize=JSON.stringify] (subset) => serializedData. Called just before persisting to
- * cookie. Should transform the subset into a format that can be stored.
- * @param {Function} [config.deserialize=JSON.parse] (persistedData) => subset. Called directly after retrieving
- * persistedState from cookie. Should transform the data into the format expected by your application
  *
  * @return {Function} An enhanced store
  */
@@ -25,12 +21,13 @@ export default function persistState(paths, config) {
         key: 'redux',
         merge: mergeState,
         slicer: createSlicer,
-        serialize: JSON.stringify,
-        deserialize: JSON.parse,
+        cookieOptions: {
+            path: '/'
+        },
         ...config
     }
 
-    const {key, merge, slicer, serialize, deserialize} = cfg
+    const {key, merge, slicer, cookieOptions} = cfg
 
     return next => (reducer, initialState, enhancer) => {
         if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
@@ -56,9 +53,7 @@ export default function persistState(paths, config) {
             const subset = slicerFn(state)
 
             try {
-                cookies.set(key, subset, {
-                    path: '/'
-                });
+                cookies.set(key, subset, cookieOptions);
             } catch ( e ) {
                 console.warn('Unable to persist state to cookie:', e)
             }
