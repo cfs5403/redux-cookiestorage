@@ -19,55 +19,51 @@ import Cookies from 'universal-cookie';
  * @return {Function} An enhanced store
  */
 export default function persistState(paths, config) {
-  const cookies = new Cookies();
-  
-  const cfg = {
-    key: 'redux',
-    merge: mergeState,
-    slicer: createSlicer,
-    serialize: JSON.stringify,
-    deserialize: JSON.parse,
-    ...config
-  }
+    const cookies = new Cookies();
 
-  const {
-    key,
-    merge,
-    slicer,
-    serialize,
-    deserialize
-  } = cfg
-
-  return next => (reducer, initialState, enhancer) => {
-    if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
-      enhancer = initialState
-      initialState = undefined
+    const cfg = {
+        key: 'redux',
+        merge: mergeState,
+        slicer: createSlicer,
+        serialize: JSON.stringify,
+        deserialize: JSON.parse,
+        ...config
     }
 
-    let persistedState
-    let finalInitialState
+    const {key, merge, slicer, serialize, deserialize} = cfg
 
-    try {
-      persistedState = deserialize(cookies.get(key))
-      finalInitialState = merge(initialState, persistedState)
-    } catch (e) {
-      console.warn('Failed to retrieve initialize state from cookie:', e)
+    return next => (reducer, initialState, enhancer) => {
+        if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+            enhancer = initialState
+            initialState = undefined
+        }
+
+        let persistedState
+        let finalInitialState
+
+        try {
+            persistedState = cookies.get(key)
+            finalInitialState = merge(initialState, persistedState)
+        } catch ( e ) {
+            console.warn('Failed to retrieve initialize state from cookie:', e)
+        }
+
+        const store = next(reducer, finalInitialState, enhancer)
+        const slicerFn = slicer(paths)
+
+        store.subscribe(function() {
+            const state = store.getState()
+            const subset = slicerFn(state)
+
+            try {
+                cookies.set(key, subset, {
+                    path: '/'
+                });
+            } catch ( e ) {
+                console.warn('Unable to persist state to cookie:', e)
+            }
+        })
+
+        return store
     }
-
-    const store = next(reducer, finalInitialState, enhancer)
-    const slicerFn = slicer(paths)
-
-    store.subscribe(function () {
-      const state = store.getState()
-      const subset = slicerFn(state)
-
-      try {
-        cookies.set(key, serialize(subset), { path: '/' });
-      } catch (e) {
-        console.warn('Unable to persist state to cookie:', e)
-      }
-    })
-
-    return store
-  }
 }
