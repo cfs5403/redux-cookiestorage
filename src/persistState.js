@@ -1,6 +1,6 @@
 import createSlicer from './createSlicer.js'
 import mergeState from './util/mergeState.js'
-import cookies from 'universal-cookie';
+import Cookies from 'universal-cookie';
 
 /**
  * @description
@@ -19,6 +19,8 @@ import cookies from 'universal-cookie';
  * @return {Function} An enhanced store
  */
 export default function persistState(paths, config) {
+  const cookies = new Cookies();
+  
   const cfg = {
     key: 'redux',
     merge: mergeState,
