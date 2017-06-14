@@ -21,6 +21,9 @@
     "url": "https://github.com/elgerlambert/redux-localstorage/issues"
   },
   "homepage": "https://github.com/elgerlambert/redux-localstorage#readme",
+  "dependencies": {
+    "universal-cookie": "^2.0.1"
+  },
   "devDependencies": {
     "babel": "^5.8.5",
     "babel-core": "^5.8.5",
