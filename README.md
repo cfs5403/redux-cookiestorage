@@ -67,22 +67,25 @@ paths.forEach((path) => {
 }
 ```
 
-## Immutable Data
-If you're using immutable collections or some other custom collection, redux-cookiestorage exposes a number of functions that can be overridden by providing the following config options. These allow you to specify your own transformations based on your needs. If you're using ordinary javascript Objects, Arrays or primitives, you shouldn't have to concern yourself with these options.
-
-##### config.serialize
+##### config.cookieOptions
 ```js
-type config.serialize = (subset: Collection) => serializedData: String
+type config.cookieOptions = Object
 ```
-The default serialization strategy is JSON.stringify. Specifying a serialize function as part of your config will override this.
-This function receives a single argument (the subset of your store's state about to be persisted) and should return a serialized (i.e. stringified) representation thereof. 
+- options (object): Support all the cookie options from RFC 6265
+  - path (string): cookie path, use `/` as the path if you want your cookie to be accessible on all pages
+  - expires (Date): absolute expiration date for the cookie
+  - maxAge (number): relative max age of the cookie from when the client receives it in second
+  - domain (string): domain for the cookie (sub.domain.com or .allsubdomains.com)
+  - secure (boolean): Is only accessible through HTTPS?
+  - httpOnly (boolean): Is only the server can access the cookie?
 
-##### config.deserialize
+Example
 ```js
-type config.deserialize = (serializedData: String) => subset: Collection
+	cookieOptions = {
+            path: '/',
+            maxAge: (7*24*60*60) //7 days expired
+        },
 ```
-The default deserialization strategy is JSON.parse. Specifying a deserialize function as part of your config will override this.
-This function receives a single argument (a serialized representation of your persisted state) and should return the data in a format that's expected by your application.
 
 ##### config.merge
 ```js

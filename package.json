@@ -1,6 +1,6 @@
 {
   "name": "redux-cookiestorage",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "Store enhancer that syncs (a subset of) your redux store state to cookie.",
   "main": "lib/persistState.js",
   "scripts": {
