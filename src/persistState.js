@@ -1,5 +1,6 @@
 import createSlicer from './createSlicer.js'
 import mergeState from './util/mergeState.js'
+import cookies from 'universal-cookie';
 
 /**
  * @description
@@ -45,7 +46,7 @@ export default function persistState(paths, config) {
     let finalInitialState
 
     try {
-      persistedState = deserialize(localStorage.getItem(key))
+      persistedState = deserialize(cookies.get(key))
       finalInitialState = merge(initialState, persistedState)
     } catch (e) {
       console.warn('Failed to retrieve initialize state from localStorage:', e)
@@ -59,7 +60,7 @@ export default function persistState(paths, config) {
       const subset = slicerFn(state)
 
       try {
-        localStorage.setItem(key, serialize(subset))
+        cookies.set(key, serialize(subset), { path: '/' });
       } catch (e) {
         console.warn('Unable to persist state to localStorage:', e)
       }
