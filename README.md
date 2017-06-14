@@ -1,19 +1,21 @@
 redux-localstorage
 ==================
 
-Store enhancer that syncs (a subset) of your Redux store state to localstorage.
+The same library by [Elger Lambert](https://github.com/elgerlambert/redux-localstorage), but for cookie instead of localStorage.
 
-**NOTE:** Be sure to check out the [1.0-breaking-changes](https://github.com/elgerlambert/redux-localstorage/tree/1.0-breaking-changes) branch (available on npm as `redux-localstorage@rc`). It includes support for flexible storage backends, including (but not limited to) `sessionStorage` and react-natives' `AsyncStorage`.
+Store enhancer that syncs (a subset) of your Redux store state to sessionstorage.
+
+**NOTE:** Be sure to check out the [1.0-breaking-changes](https://github.com/elgerlambert/redux-sessionstorage/tree/1.0-breaking-changes) branch (available on npm as `redux-sessionstorage@rc`). It includes support for flexible storage backends, including (but not limited to) `sessionStorage` and react-natives' `AsyncStorage`.
 
 ## Installation
 ```js
-npm install --save redux-localstorage
+npm install --save redux-cookiestorage
 ```
 
 ## Usage
 ```js
 import {compose, createStore} from 'redux';
-import persistState from 'redux-localstorage'
+import persistState from 'redux-cookiestorage'
 
 const enhancer = compose(
   /* [middlewares] */,
