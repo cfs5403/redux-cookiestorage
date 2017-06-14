@@ -1,4 +1,4 @@
-redux-localstorage
+redux-cookiestorage
 ==================
 
 The same library by [Elger Lambert](https://github.com/elgerlambert/redux-localstorage), but for cookie instead of localStorage.
