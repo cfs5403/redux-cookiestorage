@@ -50,6 +50,23 @@ If left `Void`, persistState will sync Redux's complete store state with cookie.
 which parts of your store's state should be persisted you can define your own strategy through [config.slicer](#configslicer)
 
 #### config
+```js
+import {compose, createStore} from 'redux';
+import persistState from 'redux-cookiestorage'
+
+const enhancer = compose(
+  /* [middlewares] */,
+  persistState(/*paths*/, {
+    key: /*key*/,
+    slicer: /*slicer*/,
+    cookieOptions: /*cookieOptions*/,
+    merge: /*merge*/
+  }),
+)
+
+const store = createStore(/*reducer, [initialState]*/, enhancer)
+```
+
 ##### config.key
 ```js
 type config.key = String
