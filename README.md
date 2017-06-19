@@ -38,12 +38,12 @@ import persistState from 'redux-cookiestorage'
 
 const enhancer = compose(
   /* [middlewares] */,
-  persistState('auth', config*/), //this only will persist auth state into cookie
+  persistState('auth', /*config*/), //this only will persist auth state into cookie
 )
 
 const store = createStore(/*reducer, [initialState]*/, enhancer)
 ```
- 
+
 If left `Void`, persistState will sync Redux's complete store state with cookie. Alternatively you may specify which part(s) of your state should be persisted.
 
 **Note:** Currently no support for nested paths. Only "top-level" paths are supported, i.e. state[path]. If your needs are more complex and you require more control over
@@ -100,7 +100,7 @@ import persistState from 'redux-cookiestorage'
 
 const enhancer = compose(
   /* [middlewares] */,
-  persistState(/*paths, {
+  persistState(/*paths*/, {
     cookieOptions: {
             path: '/',
             maxAge: (7*24*60*60) //7 days expired
